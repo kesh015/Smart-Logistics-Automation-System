@@ -1,8 +1,8 @@
-Smart Logistics Automation System
+**Smart Logistics Automation System**
 
 An automation system designed to replace manual Excel-based logistics workflows with an AI-powered, Telegram-controlled smart agent. Built using n8n, Telegram Bot API, Google Sheets, Gmail API, and optional dashboards. This system enables real-time revenue checks, dispatch updates, client management, and automated email notifications — all from a simple chat interface.
 
-🚀 Overview
+🚀 **Overview**
 
 This automation replicates a lightweight CRM + operations assistant that works through Telegram. The workflow uses an AI agent to:
 
@@ -18,7 +18,7 @@ Maintain context using memory buffering
 
 The system functions like a conversational operations manager, eliminating repetitive Excel tasks and making business monitoring effortless.
 
-🧠 Features
+**🧠 Features**
 
 Chat-based Data Retrieval
 Ask Telegram:
@@ -26,7 +26,7 @@ Ask Telegram:
 “Give me dispatch details”
 “What is the quantity for Client X?”
 
-Google Sheets Automation
+**Google Sheets Automation**
 
 Read rows
 
@@ -64,21 +64,21 @@ HTML-safe output
 
 Fast responses
 
-🏗 Architecture
-Telegram Message
+**🏗 Architecture**
+**Telegram Message**
         ↓
-Telegram Trigger (n8n)
+**Telegram Trigger (n8n)**
         ↓
-AI Agent (Google Gemini + Memory)
+**AI Agent (Google Gemini + Memory)**
         ↓
-┌───────────────┬────────────────┬────────────────────────────┐
-│ Read Google Sheet │ Update Google Sheet │ Send Gmail Message │
+┌───────────────┬────────────────┬────────────────────────────┐**
+│ Read Google Sheet │ Update Google Sheet │ Send Gmail Message │**
 └───────────────┴────────────────┴────────────────────────────┘
         ↓
-Send Response Back to Telegram
+**Send Response Back to Telegram**
 
 
-The AI layer uses:
+**The AI layer uses:**
 
 Google Gemini Model
 
@@ -92,7 +92,7 @@ update_google_sheet
 
 gmailTool
 
-📂 Project Structure
+**📂 Project Structure**
 .
 ├── README.md
 └── workflow/
@@ -102,7 +102,7 @@ gmailTool
 workflow/ai-telegram-google-sheets-agent.json
 → The exported n8n workflow file (with sensitive credentials removed).
 
-🛠 Tech Stack
+**🛠 Tech Stack**
 
 n8n – workflow automation engine
 
@@ -114,7 +114,7 @@ Google Gemini (PaLM) – AI agent
 
 Gmail API – automated email sending
 
-📸 Workflow Highlights
+**📸 Workflow Highlights**
 
 This workflow includes:
 
@@ -128,23 +128,23 @@ Google Sheets Tools
 
 Gmail Tool
 
-Response Formatter
-
+**Response Formatter
+**
 You can import the .json workflow into your own n8n instance to explore the full node map.
 
 🔧 How to Use This Workflow
 1. Import into n8n
 
-Open n8n
+**Open n8n**
 
 Go to Workflows → Import from File
 
-Upload:
+**Upload:**
 workflow/ai-telegram-google-sheets-agent.json
+**
+2. Add Your Own Credentials**
 
-2. Add Your Own Credentials
-
-Set credentials for:
+**Set credentials for:**
 
 Telegram Bot API
 
@@ -154,7 +154,7 @@ Gmail OAuth
 
 Google Gemini API
 
-3. Replace Placeholder Values
+**3. Replace Placeholder Values**
 
 Inside the JSON:
 
@@ -164,7 +164,7 @@ Update sheet names
 
 Replace fake email placeholders
 
-4. Start Using
+**4. Start Using**
 
 Send commands to your Telegram bot like:
 
@@ -174,7 +174,7 @@ Send commands to your Telegram bot like:
 
 “Show me all revenue entries for today”
 
-⚠️ Security Notes
+**⚠️ Security Notes**
 
 All credentials and tokens have been removed.
 
@@ -182,7 +182,7 @@ Always store secrets using environment variables or n8n credentials — never co
 
 Avoid uploading real client Excel sheets publicly.
 
-⭐ Why This Project Matters
+**⭐ Why This Project Matters**
 
 This workflow demonstrates real-world automation skills:
 
@@ -198,7 +198,7 @@ Real operational impact
 
 Perfect for showcasing automation engineering, no-code/low-code integration, and AI-assisted workflow design.
 
-🤝 Contributions
+**🤝 Contributions**
 
-Feel free to fork, improve, or extend the workflow.
-PRs are welcome!
+**Feel free to fork, improve, or extend the workflow.
+PRs are welcome!**
