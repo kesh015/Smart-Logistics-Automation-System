@@ -1,0 +1,341 @@
+{
+  "name": "Dashboard Tutorial",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "=You are an AI that manages a Google Sheet. Your job is to **read messages, check the sheet, and update it correctly**.\n\n### Steps\n\n1. **Read the user’s message** – understand what they want.\n2. **Check the sheet** – use `read_google_sheet` to see the current data.\n4.if any one asks to send Gmail to the client then use \"Send a message in Gmail\" tool\n3. **Decide** – figure out what needs to be changed or added.\n4. **Update** – use `update_google_sheet` to make the change.\n5. **Confirm** – tell the user what you updated.\n\n### Rules\n\n* Always check the sheet before updating.\n* Only update what’s new or changed.\n* Don’t touch unrelated data.\n* Keep confirmations short (e.g., *“Updated client revenue in the sheet.”*).\n\n\ndont give me any symbols like asterisks (*) and double asterisks (**) for formatting, which Telegram interprets as Markdown. However, the \"Send a text message\" node defaults to \"MarkdownV2\" parse mode, which is stricter about special characters.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -48,
+        -80
+      ],
+      "id": "e8c4715e-e57c-41eb-a8ce-bc837fbfb83c",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -192,
+        128
+      ],
+      "id": "5c5bf260-bf54-4ffe-929d-e65e811dcd7e",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "54EEQcQCLFjdZNO6",
+          "name": "Google Gemini(PaLM) Api account 6"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.message.chat.id }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -48,
+        128
+      ],
+      "id": "46d5096b-9c48-44a0-8647-db6b9db55180",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1tR_zrP98dy0mW2eN9-ZbamofdCvT76C30fgHkwu_MlY",
+          "mode": "list",
+          "cachedResultName": "Customers Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tR_zrP98dy0mW2eN9-ZbamofdCvT76C30fgHkwu_MlY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tR_zrP98dy0mW2eN9-ZbamofdCvT76C30fgHkwu_MlY/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        112,
+        128
+      ],
+      "id": "bc2449c3-906c-4ad0-a20c-c5d9538483c4",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1GLx7gGb3cHC2q4L",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1tR_zrP98dy0mW2eN9-ZbamofdCvT76C30fgHkwu_MlY",
+          "mode": "list",
+          "cachedResultName": "Customers Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tR_zrP98dy0mW2eN9-ZbamofdCvT76C30fgHkwu_MlY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tR_zrP98dy0mW2eN9-ZbamofdCvT76C30fgHkwu_MlY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Client": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Client__using_to_match_', ``, 'string') }}",
+            "Amount Payed": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Amount_Payed', ``, 'string') }}",
+            "Industry": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Industry', ``, 'string') }}",
+            "Gmail": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Gmail', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "Client"
+          ],
+          "schema": [
+            {
+              "id": "Client",
+              "displayName": "Client",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Amount Payed",
+              "displayName": "Amount Payed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Gmail",
+              "displayName": "Gmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        272,
+        128
+      ],
+      "id": "0bc13262-255f-4a74-84ea-3f251cbf09ca",
+      "name": "update_google_sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1GLx7gGb3cHC2q4L",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -288,
+        -80
+      ],
+      "id": "1441313f-38e6-4047-ba9a-86530686233b",
+      "name": "Telegram Trigger",
+      "webhookId": "ce3809d6-8ac0-42ee-bf77-846f9edddc72",
+      "credentials": {
+        "telegramApi": {
+          "id": "qDCjET9dzoZg28sV",
+          "name": "Telegram account 6"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        320,
+        -80
+      ],
+      "id": "d21530df-1457-41ab-96ad-cc732a9c32a5",
+      "name": "Send a text message",
+      "webhookId": "c8863195-de20-4c24-8ee9-6c0629d0f817",
+      "credentials": {
+        "telegramApi": {
+          "id": "qDCjET9dzoZg28sV",
+          "name": "Telegram account 6"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "emailType": "text",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        208,
+        224
+      ],
+      "id": "43a68583-869e-43a6-92a4-d72e3463f081",
+      "name": "Send a message in Gmail",
+      "webhookId": "3b671fc2-1009-417b-b642-c723d269c433",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "CvsQk49EHOi9YLJ7",
+          "name": "Gmail account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update_google_sheet": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "916c793c-9194-44b1-b9e4-862c78531034",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8eda66cda7e53912f7edce447c57d5c71b0ca19e564d5f87d1554ec1c0f9c389"
+  },
+  "id": "KuCCZ9WTVZU5g97x",
+  "tags": []
+}
